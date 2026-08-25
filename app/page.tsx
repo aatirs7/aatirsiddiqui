@@ -2,6 +2,7 @@ import { featuredProjects, shippedCount, visible } from "@/content/projects";
 import { site, buildDate } from "@/lib/site";
 import { WorkIndex } from "@/components/WorkIndex";
 import { Vitrine } from "@/components/Vitrine";
+import { StaticVitrine } from "@/components/StaticVitrine";
 import styles from "./page.module.css";
 
 /**
@@ -49,9 +50,15 @@ export default function Home() {
           Four of them, each rendered in its own design language rather than described in mine.
         </p>
         <div className={styles.vitrines}>
-          {featuredProjects.map((p) => (
-            <Vitrine key={p.slug} project={p} specimen={p.specimens?.[0]} />
-          ))}
+          {featuredProjects.map((p) => {
+            const specimen = p.specimens?.[0];
+            /* Only a project with a specimen needs the client component. */
+            return specimen ? (
+              <Vitrine key={p.slug} project={p} specimen={specimen} />
+            ) : (
+              <StaticVitrine key={p.slug} project={p} />
+            );
+          })}
         </div>
       </section>
 
