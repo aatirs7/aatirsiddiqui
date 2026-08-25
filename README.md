@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# aatirsiddiqui
 
-## Getting Started
+An index of everything Aatir Siddiqui has built: iOS apps, web apps,
+internal tools, and ventures. Live at
+[aatirsiddiqui.vercel.app](https://aatirsiddiqui.vercel.app).
 
-First, run the development server:
+Next.js App Router, TypeScript, Tailwind 4, deployed on Vercel. No
+database, no CMS, no auth. All content is a typed data file validated by
+Zod at import time.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Running it
+
+```
+npm install
+npm run dev          # http://localhost:3000
+npm run lint:copy    # repo guards
+npm run check        # guards, lint, typecheck, build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it is organised
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What lives there |
+|---|---|
+| `content/projects.ts` | One entry per product. Zod-validated on import. |
+| `content/identities.ts` | Each project's real design tokens, ported by value from its own repo. The source file is named above every entry. |
+| `components/specimens/` | Real pieces of a project's interface, rebuilt here in its own design language. |
+| `components/Vitrine.tsx` | The container every specimen mounts inside. |
+| `INVENTORY.md` | Every scanned repo and the decision made about it. |
+| `scripts/lint-copy.mjs` | The repo guards. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## The rules this repo enforces
 
-## Learn More
+`npm run lint:copy` fails the build on any of these:
 
-To learn more about Next.js, take a look at the following resources:
+- an em dash anywhere, in code, copy, or comments
+- a pure white or pure black in the site chrome (`content/identities.ts`
+  and `components/specimens/` are exempt, because a project's real palette
+  is reproduced there verbatim, travld's mint on black included)
+- a table element
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Zod schema in `lib/schema.ts` enforces the visibility policy
+structurally rather than by convention: a project that is not `public`
+cannot carry a link, a screenshot, a specimen, or a featured flag, and
+`/work/[slug]` generates pages for `public` entries only. A mistake there
+fails the build instead of shipping.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Specimens
 
-## Deploy on Vercel
+Each public project gets one or two working pieces of its own interface
+rebuilt in this codebase, running in its own palette, type, and motion, so
+the page moves through a series of distinct visual worlds while the site's
+own chrome stays neutral.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A specimen mounts inside `.vitrine[data-project="<slug>"]`, which sets that
+project's tokens as `--p-*` custom properties. Specimen CSS is a CSS Module
+that reads only `--p-*` and never a site token. The wrapper sets
+`isolation: isolate`, `contain: layout paint`, and `overflow: hidden`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Specimens load through `next/dynamic` with `ssr: false`, mount on
+intersection with a 200px root margin, reset when scrolled out and back,
+make no network requests, and hold all data as a local fixture. The
+project's fallback sits underneath as the backdrop, so the frame is never
+empty and never changes size.
+
+Built so far: Ilmy. The rest are listed in the build spec's Appendix B.
