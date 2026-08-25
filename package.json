@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:copy": "node scripts/lint-copy.mjs",
+    "check": "npm run lint:copy && next lint && tsc --noEmit && next build"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

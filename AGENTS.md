@@ -1,9 +1,31 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# aatirsiddiqui
 
-# This is NOT the Next.js you know
+Portfolio site. Next.js App Router, TypeScript, Tailwind 4, deployed on Vercel.
+Built to the spec in `portfolio-site-spec.md`.
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+## Hard rules, enforced by `npm run lint:copy`
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+- No em dashes anywhere: code, copy, comments, commit messages. Use a comma,
+  a colon, or a period.
+- No pure white and no pure black in the site chrome. Use the tokens in
+  `app/globals.css`. `content/identities.ts` and `components/specimens/` are
+  exempt, because a project's real palette is reproduced verbatim there.
+- No table elements. Center alignment is the default.
 
-<!-- END:nextjs-agent-rules -->
+## Layout
+
+- `content/projects.ts`   one entry per product, validated by Zod on import.
+- `content/identities.ts` each project's real design tokens, ported by value
+                          from its own repo. The source path is commented
+                          above every entry.
+- `components/specimens/` real pieces of each project's UI, rebuilt here.
+                          CSS Modules reading only `--p-*`. No network calls,
+                          no persistence, all data is a local fixture.
+- `INVENTORY.md`          every scanned repo and the decision made about it.
+
+## Visibility
+
+`public` gets a detail page, links, and specimens. `listed` gets a spine card
+and a palette plate, and must never carry a link, a screenshot, or a detail
+page. `hidden` is not on the site at all. The Zod schema in `lib/schema.ts`
+enforces this structurally, so a mistake fails the build rather than shipping.

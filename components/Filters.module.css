@@ -1,0 +1,57 @@
+.groups {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.set {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.legend {
+  float: none;
+  width: auto;
+  padding: 0 10px 0 0;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.chip {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 13px;
+  cursor: pointer;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.chip:hover {
+  border-color: color-mix(in srgb, var(--muted) 20%, var(--line));
+}
+
+/* Active filter is one of the three places --signal is allowed. Spec 6.1. */
+.chip[aria-pressed="true"] {
+  color: var(--signal);
+  border-color: color-mix(in srgb, var(--signal) 45%, var(--line));
+}
+
+@media (max-width: 767px) {
+  .legend { width: 100%; padding: 0 0 2px; text-align: center; }
+}

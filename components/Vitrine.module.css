@@ -1,0 +1,160 @@
+/* The container that holds every specimen. Same on every project, so the
+   projects themselves are what differ. Spec 7.4. */
+.vitrine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 20px 24px;
+
+  /* Style containment. Spec 7.3. Nothing inside affects anything outside. */
+  isolation: isolate;
+  contain: layout paint;
+  overflow: hidden;
+}
+
+.plate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.name {
+  font-size: var(--t-20);
+}
+
+.caption {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  max-width: 40ch;
+}
+
+/* --- frames. Drawn in --line. No gloss, no shadow, no notch art. --- */
+
+.stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.phone {
+  position: relative;
+  width: 300px;
+  max-width: 100%;
+  aspect-ratio: 300 / 620;
+  border: 1px solid var(--line);
+  border-radius: 34px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.browser {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 720 / 470;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.bare {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 720 / 440;
+  overflow: hidden;
+}
+
+.bar {
+  flex: none;
+  height: 34px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 12px;
+}
+
+.url {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.screen {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.phone .screen {
+  border-radius: 25px;
+}
+
+/* --- fallback. Never an empty vitrine. Spec 7.7. --- */
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.fallbackImage {
+  object-fit: cover;
+}
+
+.fallbackNote {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  max-width: 26ch;
+  line-height: 1.6;
+}
+
+/* Interaction hint, fades after first interaction. Spec 7.4. */
+.hint {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: opacity 300ms ease;
+  min-height: 1.4em;
+}
+
+.hintGone {
+  opacity: 0;
+}
+
+.divider {
+  width: 44px;
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: 0;
+}

@@ -1,0 +1,216 @@
+/* Ilmy specimen. Reads only --p-* custom properties set by the vitrine
+   wrapper, plus the loaded font variables. It never touches --ground,
+   --text, or any other site token. Spec 7.3. */
+
+.root {
+  /* Answer-state colours, from ILMYIOS/components/lesson/QuestionCard.tsx.
+     Scoped to this specimen, still inside the --p-* namespace. */
+  --p-correct: #065f46;
+  --p-correct-reveal: #10b981;
+  --p-wrong: #ef4444;
+
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--p-background);
+  color: var(--p-text);
+  font-family: var(--font-p-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+  overflow: hidden;
+}
+
+.top {
+  flex: none;
+  padding: 16px 18px 4px;
+}
+
+.progress {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.tick {
+  height: 3px;
+  flex: 1;
+  max-width: 46px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--p-text) 12%, transparent);
+  transition: background 260ms ease;
+}
+
+.tick[data-done="true"] {
+  background: var(--p-primary);
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 20px 20px;
+  animation: fade 320ms ease both;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--p-gold);
+}
+
+.anchor {
+  margin: 2px 0 0;
+  font-family: var(--font-p-amiri), serif;
+  font-size: 40px;
+  line-height: 1.5;
+  color: var(--p-primary);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-p-playfair), ui-serif, Georgia, serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--p-text);
+}
+
+.translit {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--p-text-secondary);
+}
+
+.meaning {
+  margin: 6px 0 0;
+  font-family: var(--font-p-playfair), ui-serif, Georgia, serif;
+  font-size: 15px;
+  color: var(--p-primary);
+}
+
+.explain {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--p-text-secondary);
+  max-width: 30ch;
+}
+
+.emphasis {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--p-text);
+}
+
+.prompt {
+  margin: 4px 0 10px;
+  font-family: var(--font-p-playfair), ui-serif, Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  max-width: 24ch;
+}
+
+.answers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.answer {
+  width: 100%;
+  appearance: none;
+  cursor: pointer;
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 12px;
+  border-radius: var(--p-radius, 12px);
+  border: 1.5px solid color-mix(in srgb, var(--p-text) 14%, transparent);
+  background: var(--p-primary-light);
+  color: var(--p-text);
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.answer:disabled { cursor: default; }
+
+.answer[data-state="correct"] {
+  background: var(--p-correct);
+  border-color: var(--p-correct);
+  color: var(--p-primary-light);
+}
+
+.answer[data-state="wrong"] {
+  background: var(--p-wrong);
+  border-color: var(--p-wrong);
+  color: var(--p-primary-light);
+}
+
+.answer[data-state="reveal"] {
+  border-color: var(--p-correct-reveal);
+  background: var(--p-primary-light);
+  color: var(--p-correct);
+}
+
+.answer[data-state="dim"] {
+  opacity: 0.5;
+}
+
+.feedback {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.feedbackText {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--p-correct);
+  max-width: 26ch;
+}
+
+.feedback[data-correct="false"] .feedbackText {
+  color: var(--p-wrong);
+}
+
+.cta {
+  margin-top: 12px;
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 10px 26px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--p-primary);
+  color: var(--p-primary-light);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--p-gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body { animation: none; }
+  .tick, .answer { transition: none; }
+}

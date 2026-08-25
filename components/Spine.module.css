@@ -1,0 +1,174 @@
+.wrap {
+  position: relative;
+  margin-top: 56px;
+}
+
+/* The spine itself. One hairline down the centre. Spec 6.4. */
+.rule {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--line);
+  transform: translateX(-0.5px);
+  transform-origin: top;
+  animation: draw 560ms 120ms ease both;
+}
+
+@keyframes draw {
+  from { transform: translateX(-0.5px) scaleY(0); }
+  to   { transform: translateX(-0.5px) scaleY(1); }
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Year marker sits ON the rule. */
+.year {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  padding-block: 28px 20px;
+}
+
+.yearLabel {
+  background: var(--ground);
+  padding: 2px 12px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-block: 10px;
+}
+
+/* Connector from card to rule. */
+.row::before {
+  content: "";
+  position: absolute;
+  top: 42px;
+  width: 24px;
+  height: 1px;
+  background: var(--line);
+}
+.left::before  { right: 50%; }
+.right::before { left: 50%; }
+
+.left  .card { grid-column: 1; margin-right: 24px; }
+.right .card { grid-column: 2; margin-left: 24px; }
+
+.card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px 22px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 200ms ease;
+}
+
+/* Hover lightens the border only. Nothing scales, nothing lifts. Spec 6.5. */
+.card:hover {
+  border-color: color-mix(in srgb, var(--muted) 20%, var(--line));
+}
+
+.eyebrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--signal);
+  flex: none;
+}
+
+.name {
+  font-size: var(--t-20);
+  margin-top: 10px;
+}
+
+.tagline {
+  margin: 6px auto 0;
+  max-width: 34ch;
+  font-size: var(--t-14);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+  list-style: none;
+  padding: 0;
+}
+
+.chip {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.more {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-12);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+  border-bottom: 1px solid var(--signal);
+  padding-bottom: 2px;
+}
+
+.empty {
+  padding-block: 64px;
+  color: var(--muted);
+}
+
+/* Mobile: cards stack full width, the rule stays but the connector goes. */
+@media (max-width: 767px) {
+  .rule { left: 0; transform: none; animation-name: drawMobile; }
+  @keyframes drawMobile {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+  .row { grid-template-columns: 1fr; padding-left: 20px; }
+  .row::before { top: 34px; left: 0; right: auto; width: 12px; }
+  .left .card, .right .card { grid-column: 1; margin: 0; }
+  .year { justify-content: flex-start; padding-left: 0; }
+  .yearLabel { padding-left: 0; }
+}
