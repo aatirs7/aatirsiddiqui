@@ -83,13 +83,16 @@ export function Vitrine({ project, specimen }: { project: Project; specimen?: Sp
         <>
           <div className={styles.stage} onClick={retireHint} onKeyDown={retireHint}>
             <Frame kind={frame} url={url}>
+              {/* The fallback is always present as the backdrop, and the
+                  specimen paints over it once its chunk arrives. That is what
+                  guarantees the frame is never empty, whether the specimen is
+                  still loading, has failed, or JS is off. Spec 7.7. */}
+              <Fallback project={project} />
               {showSpecimen && Specimen ? (
                 <SpecimenBoundary key={generation} onError={() => setFailed(true)}>
                   <Specimen />
                 </SpecimenBoundary>
-              ) : (
-                <Fallback project={project} />
-              )}
+              ) : null}
             </Frame>
           </div>
 
