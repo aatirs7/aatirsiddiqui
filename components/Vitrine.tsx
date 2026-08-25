@@ -77,25 +77,33 @@ export function Vitrine({ project, specimen }: { project: Project; specimen?: Sp
         <p className={styles.caption}>{specimen?.label ?? "Design language"}</p>
       </div>
 
-      <div className={styles.stage} onPointerDown={retireHint} onKeyDown={retireHint}>
-        <Frame kind={frame} url={url}>
-          {showSpecimen && Specimen ? (
-            <SpecimenBoundary key={generation} onError={() => setFailed(true)}>
-              <Specimen />
-            </SpecimenBoundary>
-          ) : (
-            <Fallback project={project} />
-          )}
-        </Frame>
-      </div>
+      {/* A project with no specimen yet shows its design language on its own,
+          rather than an empty device frame around nothing. Spec 7.1. */}
+      {specimen ? (
+        <>
+          <div className={styles.stage} onClick={retireHint} onKeyDown={retireHint}>
+            <Frame kind={frame} url={url}>
+              {showSpecimen && Specimen ? (
+                <SpecimenBoundary key={generation} onError={() => setFailed(true)}>
+                  <Specimen />
+                </SpecimenBoundary>
+              ) : (
+                <Fallback project={project} />
+              )}
+            </Frame>
+          </div>
 
-      {specimen?.interactive ? (
-        <p className={`${styles.hint} ${touched ? styles.hintGone : ""}`}>Tap to answer</p>
+          {specimen.interactive ? (
+            <p className={`${styles.hint} ${touched ? styles.hintGone : ""}`}>Tap to answer</p>
+          ) : null}
+
+          <hr className={styles.divider} />
+        </>
       ) : null}
 
-      <hr className={styles.divider} />
-
-      {project.identity ? <PalettePlate identity={project.identity} compact /> : null}
+      {project.identity ? (
+        <PalettePlate identity={project.identity} compact={Boolean(specimen)} />
+      ) : null}
     </div>
   );
 }

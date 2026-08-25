@@ -82,7 +82,9 @@ a { color: inherit; }
 .shell {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 0 24px;
+  /* padding-inline, never the shorthand: the shorthand would reset the
+     vertical rhythm that the section rule below sets. */
+  padding-inline: 24px;
 }
 
 section { padding-block: var(--rhythm); }
