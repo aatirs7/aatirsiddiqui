@@ -131,7 +131,9 @@
   font-size: var(--t-12);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  /* The project's own ink, because this sits on the project's own ground.
+     Using the site's --muted here fails contrast on a light palette. */
+  color: var(--p-text, var(--p-ink, var(--muted)));
   max-width: 26ch;
   line-height: 1.6;
 }
